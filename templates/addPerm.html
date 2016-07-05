@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block list %}
+<div class="container">
+<div class="row row-offcanvas row-offcanvas-right">
+  <div class="col-xs-11 col-sm-2 sidebar-offcanvas" id="sidebar" role="navigation">
+    <div class="row">
+      <div class="col-md-22">
+                <!--Sidebar content-->
+                <div class="sidebar-menu">
+         <!-- <div class="menu-first" ><a href="#userMenu" data-toggle="collapse"><i class="glyphicon glyphicon-th
+"></i> 证金管理</a></div> -->
+          <ul id="userMenu" class="nav nav-list navbar-collapse.in menu-second">
+            <li><a href="/showPerm/"><i class="glyphicon glyphicon-send"></i> 权限列表</a></li>
+            <li><a href="/searchU/"><i class="glyphicon glyphicon-send"></i> ip查询用户</a></li>
+            <li><a href="/addPerm/"><i class="glyphicon glyphicon-send"></i> 增加权限</a></li>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+    <form method="post" class="form-horizontal" action="">
+    <fieldset>
+       <!-- <legend>{{ user.name }}</legend> -->
+        {% if info %}
+            <p class="alert alert-success">
+                {{ info }}
+            </p>
+        {% endif %}
+        {% if errors %}
+            <p class="alert alert-success">
+                {{ errors }}
+            </p>
+        {% endif %}
+
+<!--
+        <div class="form-group">
+            <label for="username" class="col-sm-2 control-label">用户名</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="username" id="username" value="{{ user.username }}" disabled>
+            </div>
+            <input type="hidden" class="form-control" name="username" id="username" value="{{ user.username }}">
+        </div>
+-->
+        <div class="form-group">
+            <label for="username" class="col-sm-2 control-label">用户</label>
+            <div class="col-sm-4">
+                <input type="username" class="form-control" id="username" name="username" placeholder="用户名">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="IP" class="col-sm-2 control-label">IP地址</label>
+            <div class="col-sm-8">
+                <input type="IP" class="form-control" id="IP" name="IP" placeholder="IP(多个ip空格或者换行隔开)">
+            </div>
+        </div>
+
+        <div class="from-group">
+            <div class="col-sm-offset-2 col-sm-4">
+                <button type="submit" >添加</button>
+
+            </div>
+        </div>
+
+    </fieldset>
+    </form>
+{% endblock %}

@@ -1,0 +1,69 @@
+<link href="/static/css/bootstrap.css" rel="stylesheet">
+<link href="/static/css/main.css" rel="stylesheet">
+
+<script src="/static/js/main.js"></script>
+<script src="/static/js/jquery.min.js"></script>
+
+<script src="/static/js/bootstrap.min.js"></script>
+
+<div class="container">
+<div class="row row-offcanvas row-offcanvas-right">
+  <div class="col-xs-11 col-sm-2 sidebar-offcanvas" id="sidebar" role="navigation">
+    <div class="row">
+      <div class="col-md-22">
+                <!--Sidebar content-->
+                <div class="sidebar-menu">
+         <!-- <div class="menu-first" ><a href="#userMenu" data-toggle="collapse"><i class="glyphicon glyphicon-th"></i> 证金管理</a></div> -->
+          <ul id="userMenu" class="nav nav-list navbar-collapse.in menu-second">
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <form class="form-horizontal" role="form" method="post" action="" >
+        <fieldset >
+            <legend>修改跳板机账号密码</legend>
+            {% if error %}
+                <div class="alert alert-danger">
+                    {{ error }}
+                </div>
+            {% endif %}
+            {% if msg %}
+                <div class="alert alert-success">
+                    {{ msg }}
+                </div>
+            {% endif %}
+            <div class="form-group">
+                <label for="username" class="col-sm-2 control-label">用户名<span style="color: red"> *</span></label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" id="username" name="username" placeholder="用户名">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password_old" class="col-sm-2 control-label">旧密码<span style="color: red"> *</span></label>
+                <div class="col-sm-4">
+                    <input type="password" class="form-control" id="password_old" name="password_old" placeholder="旧密码">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-sm-2 control-label">新密码<span style="color: red"> *</span></label>
+                <div class="col-sm-4">
+                    <input type="password" class="form-control" id="password" name="password" placeholder="新密码">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password_confirm" class="col-sm-2 control-label">确认新密码<span style="color: red"> *</span></label>
+                <div class="col-sm-4">
+                    <input type="password" class="form-control" id="password_confirm" name="password_confirm" placeholder="确认新密码">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-4">
+                    <button >修改</button>
+                </div>
+            </div>
+        </fieldset>
+    </form>
