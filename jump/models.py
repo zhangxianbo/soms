@@ -37,5 +37,6 @@ class Userhost(models.Model):
     #hid = models.ManyToManyField(Host)
     uid = models.ForeignKey(User)
     hid = models.ForeignKey(Host)
+    permcode = models.CharField('权限位',max_length=10,blank=True)
     def __unicode__(self):
-        return u'%s %s' % (self.uid,self.hid)
+        return u'%s %s %s' % (self.uid,self.hid,self.permcode)

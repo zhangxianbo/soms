@@ -129,12 +129,12 @@ def searchUser(request):
         check_ip = Host.objects.filter(ip__contains=ip)
         #sql_cmd = 'select username from jump_userhost join jump_host on ip="%s" and jump_host.hostid=hid_id join jump_user on userid=uid_id;' %ip
         users = User.objects.filter(userhost__hid__ip='%s' %ip)
-        #users = Userhost.objects.filter(hid__ip__exact='%s' %ip)
+        userperm = Userhost.objects.filter(hid__ip__exact='%s' %ip)
         if not check_ip:
             info = '该主机不存在！'
         elif check_ip and not users:
             info = '无用户有权限！'
-        return render_to_response('searchUser.html',{'users':users, 'ip':ip, 'info':info},
+	return render_to_response('searchUser.html',{'users':users,'userperm':userperm, 'ip':ip, 'info':info},
                                   context_instance=RequestContext(request))
     else:
         return render_to_response('searchUser.html',{'info':info},
@@ -147,6 +147,7 @@ def client_search_perm(request):
         ip = request.GET.get('ip')
         check_ip = Host.objects.filter(ip__contains=ip)
         users = User.objects.filter(userhost__hid__ip='%s' %ip)
+        userperm = Userhost.objects.filter(hid__ip__exact='%s' %ip)
         if not check_ip:
             r['the jump server res code']='%s not in jump server.' %ip
             return HttpResponse(simplejson.dumps(r,ensure_ascii = False)) 
@@ -154,7 +155,7 @@ def client_search_perm(request):
             r['the jump server res code']='%s is not users.' %ip
             return HttpResponse(simplejson.dumps(r,ensure_ascii = False)) 
 
-        return render_to_response('searchUser.html',{'users':users, 'ip':ip},
+        return render_to_response('searchUser.html',{'users':users,'userperm':userperm, 'ip':ip},
                                   context_instance=RequestContext(request))
 
 #@admin_required
@@ -388,6 +389,7 @@ def addPerm(request):
     else:
         username = request.POST.get('username')
         ip = request.POST.get('IP')
+        permcode = request.POST.get('sudo')
         ip = str(ip)
         ip_list = ip.split(' ')
         user = User.objects.filter(username=username)
@@ -399,11 +401,15 @@ def addPerm(request):
                         if check_perm:
                             info = '%s 权限存在' %ip
                         else:
-                            p = Userhost(uid=User.objects.get(username=username),hid=Host.objects.get(ip=ip))
+                            p = Userhost(uid=User.objects.get(username=username),hid=Host.objects.get(ip=ip),permcode = permcode)
                             p.save()
                             info = '添加成功！'
                     else:
                         err += '%s ' %ip
+                        #p1 = Host(ip=ip,port=22)
+                        #p1.save()
+                        #p = Userhost(uid=User.objects.get(username=username),hid=Host.objects.get(ip=ip))
+                        #p.save()
         else:
             err += '%s' % username
         if err:
