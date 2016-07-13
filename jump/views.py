@@ -404,10 +404,6 @@ def addPerm(request):
                             info = '添加成功！'
                     else:
                         err += '%s ' %ip
-                        #p1 = Host(ip=ip,port=22)
-                        #p1.save()
-                        #p = Userhost(uid=User.objects.get(username=username),hid=Host.objects.get(ip=ip))
-                        #p.save()
         else:
             err += '%s' % username
         if err:

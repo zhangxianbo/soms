@@ -297,7 +297,6 @@ def searchHost(request):
             info = '该主机不存在！'
         if request.method == 'POST':
             hosts_del = request.POST.getlist('selected')
-	    print hosts_del
             for hosts_id in hosts_del:
                 host_del = Host.objects.get(hostid=hosts_id)
                 host_del.delete()
@@ -405,10 +404,6 @@ def addPerm(request):
                             info = '添加成功！'
                     else:
                         err += '%s ' %ip
-                        #p1 = Host(ip=ip,port=22)
-                        #p1.save()
-                        #p = Userhost(uid=User.objects.get(username=username),hid=Host.objects.get(ip=ip))
-                        #p.save()
         else:
             err += '%s' % username
         if err:

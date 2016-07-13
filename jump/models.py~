@@ -8,7 +8,7 @@ class Host(models.Model):
     idc = models.CharField('机房',max_length=50)
     addr = models.CharField('机架等标识',max_length=50)
     sn = models.CharField('序列号',max_length=30,blank=True)
-    ip = models.GenericIPAddressField('ip地址')
+    ip = models.IPAddressField('ip地址')
     port = models.IntegerField()
     online = models.CharField('在线状态',max_length=10)
     use = models.CharField('用途',max_length=50,blank=True)
