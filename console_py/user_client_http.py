@@ -31,13 +31,9 @@ class get_user():
         html = self.get_html()
         if 'the jump server res code' in html:
             print html
-        msg = re.findall(r'<td class=username>(.*)</td>',html)
-        return msg
-    def find_perm(self):
-        html = self.get_html()
-        if 'the jump server res code' in html:
-            print html
-        msg = re.findall(r'<td class=permcode>(.*)</td>',html)
+        msg1 = re.findall(r'<td class=username>(.*)</td>',html)
+	msg2 = re.findall(r'<td class=sudo权限>(.*)</td>',html)
+	msg = dict(zip(msg1,msg2))
         return msg
 
 '''*检查-创建用户*'''
@@ -69,13 +65,7 @@ class create_user():
             print 'username:%s haved.' %username
         else:
             os.system('/usr/sbin/useradd %s' %username)
-            p1 = subprocess.Popen('/bin/echo %s | /usr/bin/passwd --stdin %s' %(passwd,username),shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-            p1.wait()
-            p2 = subprocess.Popen('grep ^"%s " /etc/sudoers' %username ,shell=True,stdout=subprocess.PIPE)
-            o = p2.stdout.read()
-            if o:
-                return 'ok'
-            subprocess.call('echo "%s ALL=(root) NOPASSWD:ALL" >> /etc/sudoers' %username,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+            p1 = subprocess.call('/bin/echo %s | /usr/bin/passwd --stdin %s' %(passwd,username),shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
             print 'useradd %s successed.' % username
             return 'ok'
 
@@ -122,6 +112,17 @@ def delete_user(user):
        print '不存在权限用户 %s is deleted.' % username
     else:
        print '删除用户失败  %s' %usename
+###sudo 权限增加
+def sudoadd():
+     username = user
+     p = subprocess.Popen('grep ^"%s " /etc/sudoers' %username ,shell=True,stdout=subprocess.PIPE)
+     o = p.stdout.read()
+     if o:
+         print 'usersudo:%s haved.' %username
+     else:
+        subprocess.call('echo "%s ALL=(root) NOPASSWD:ALL" >> /etc/sudoers' %username,shell=True,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        print 'sudoadd %s successed.' % username
+        return 'ok'
 
 if __name__=="__main__":
     #ip = sys.argv[1]
@@ -135,6 +136,8 @@ if __name__=="__main__":
         for user in u_list:
             c = create_user(user,password,c_key)
             c.handle()
+	    if u_list[user] == 'true':
+                sudoadd()
         e_user = existing_user()
         for i in e_user:
             if i in u_list:

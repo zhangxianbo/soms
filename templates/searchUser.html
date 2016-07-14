@@ -57,11 +57,9 @@
 	 {% for user in users %}  
             <tr>
                 <td><input type="checkbox" name="selected" value="{{ user.userid }}"></td>
-                <td class=username>{{ user }}</td>
-                <td class=ip>{{ ip }}</td>
-            {% endfor %}
-	 {% for perm in userperm  %}  
-                <td class=sudo权限>{{ perm.permcode }}</td>
+                <td class=username>{{ user.uid.name }}</td>
+                <td class=ip>{{ user.hid.ip }}</td>
+                <td class=sudo权限>{{ user.permcode }}</td>
             {% endfor %}
             </tr>
         </tbody>
